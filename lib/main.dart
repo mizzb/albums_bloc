@@ -1,9 +1,11 @@
 import 'package:album_bloc/config/constants.dart';
+import 'package:album_bloc/presentation/blocs/album/album_bloc.dart';
 import 'package:album_bloc/presentation/blocs/home/home_bloc.dart';
-import 'package:album_bloc/presentation/views/home.dart';
+import 'package:album_bloc/presentation/blocs/search/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'config/routes.dart';
 import 'injector.dart';
 
 Future main() async {
@@ -23,11 +25,18 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => HomeBloc(),
         ),
+        BlocProvider(
+          create: (_) => SearchBloc(),
+        ),
+        BlocProvider(
+          create: (_) => AlbumBloc(),
+        ),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: kAppTitle,
-        home: Home(),
+        onGenerateRoute: AppRoutes.onGenerateRoutes,
+        initialRoute: kRouteHome,
       ),
     );
   }

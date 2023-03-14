@@ -13,18 +13,29 @@ class AlbumRepositoryImpl extends AlbumRepository {
   Future<List<Album>?> getAlbums() async {
     try {
       final httpResponse = await _albumApiService.getAlbums();
-      if(httpResponse.response.statusCode == 200){
-        print(httpResponse.data);
+      if (httpResponse.response.statusCode == 200 &&
+          httpResponse.data.isNotEmpty) {
+        return httpResponse.data;
       }
     } on DioError catch (e) {
       return null;
     }
+    return null;
   }
 
   @override
-  searchAlbum(String title) {
-    // TODO: implement searchAlbum
-    throw UnimplementedError();
+  Future<List<Album?>> searchAlbum(String title) async {
+    List<Album?> albumList = [];
+    try {
+      final httpResponse = await _albumApiService.findAlbum(title: title);
+      if (httpResponse.response.statusCode == 200 &&
+          httpResponse.data.isNotEmpty) {
+        return httpResponse.data;
+      }
+    } on DioError catch (e) {
+      return albumList;
+    }
+    return albumList;
   }
 
   @override
@@ -34,8 +45,18 @@ class AlbumRepositoryImpl extends AlbumRepository {
   }
 
   @override
-  Future<List<AlbumDetail>> getAlbumImage(int albumId) {
-    // TODO: implement getAlbumImage
-    throw UnimplementedError();
+  Future<List<AlbumDetail?>> getAlbumImage(int albumId) async {
+    List<AlbumDetail?> albumDetailsList = [];
+    try {
+      final httpResponse =
+          await _albumApiService.getAlbumImage(albumId: albumId);
+      if (httpResponse.response.statusCode == 200 &&
+          httpResponse.data.isNotEmpty) {
+        return httpResponse.data;
+      }
+    } on DioError catch (e) {
+      return albumDetailsList;
+    }
+    return albumDetailsList;
   }
 }

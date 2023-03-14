@@ -7,4 +7,5 @@ class GetAlbums {
   GetAlbums(this._albumRepository);
 
   Future<List<Album>?> call() => _albumRepository.getAlbums();
+
 }

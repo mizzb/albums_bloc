@@ -6,6 +6,6 @@ class GetAlbumImage {
 
   GetAlbumImage(this._albumRepository);
 
-  Future<List<AlbumDetail>?> call(int albumId) =>
+  Future<List<AlbumDetail?>> call(int albumId) =>
       _albumRepository.getAlbumImage(albumId);
 }

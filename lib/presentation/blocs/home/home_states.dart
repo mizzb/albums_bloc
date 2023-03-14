@@ -16,5 +16,5 @@ class HomeState with _$HomeState {
 
   const factory HomeState.error(String message) = HomeErrorState;
 
-  const factory HomeState.loaded(List<Album?>? albumList) = HomeLoadedState;
+  const factory HomeState.loaded(List<Album> albumList) = HomeLoadedState;
 }

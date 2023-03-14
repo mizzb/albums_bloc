@@ -1,5 +1,6 @@
 import 'package:album_bloc/config/constants.dart';
 import 'package:album_bloc/data/model/Album.dart';
+import 'package:album_bloc/data/model/AlbumDetail.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -13,13 +14,13 @@ abstract class AlbumApiService {
   Future<HttpResponse<List<Album>>> getAlbums();
 
   @GET('/albums?title={title}')
-  Future<HttpResponse<List<Album>>> findAlbum(
-      {@Path('title') String path = ''});
+  Future<HttpResponse<List<Album?>>> findAlbum(
+      {@Path('title') String title = ''});
 
   @GET('/albums/{album_id}')
   Future<HttpResponse<Album>> getAlbum({@Path('album_id') int albumId = 0});
 
   @GET('/albums/{album_id}/photos')
-  Future<HttpResponse<Album>> getAlbumImage(
+  Future<HttpResponse<List<AlbumDetail?>>> getAlbumImage(
       {@Path('album_id') int albumId = 0});
 }

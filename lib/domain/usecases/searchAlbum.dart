@@ -6,5 +6,6 @@ class SearchAlbum {
 
   SearchAlbum(this._albumRepository);
 
-  Future<List<Album>?> call(String title) => _albumRepository.searchAlbum(title);
+  Future<List<Album?>> call(String title) =>
+      _albumRepository.searchAlbum(title);
 }
