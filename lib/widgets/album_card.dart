@@ -14,6 +14,7 @@ class AlbumCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      key: const Key('albumCard'),
       onTap: () {
         Navigator.pushNamed(context, kRouteAlbum, arguments: album.id);
       },

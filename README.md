@@ -2,5 +2,7 @@
 
 Flutter project for listing albums using bloc state manger
 
-## Getting Started
+## Steps to build
+
+
 
