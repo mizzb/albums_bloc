@@ -4,6 +4,7 @@ import 'package:album_bloc/domain/usecases/getAlbumImageUseCase.dart';
 import 'package:album_bloc/domain/usecases/getAlbumsUseCase.dart';
 import 'package:album_bloc/domain/usecases/searchAlbum.dart';
 import 'package:album_bloc/injector.dart';
+import 'package:album_bloc/main.dart';
 import 'package:album_bloc/presentation/blocs/album/album_bloc.dart';
 import 'package:album_bloc/presentation/blocs/album/album_states.dart';
 import 'package:album_bloc/presentation/blocs/home/home_bloc.dart';
@@ -11,8 +12,11 @@ import 'package:album_bloc/presentation/blocs/home/home_states.dart';
 import 'package:album_bloc/presentation/blocs/search/search_bloc.dart';
 import 'package:album_bloc/presentation/blocs/search/search_states.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+
+import 'widget_test.dart';
 
 Album mockAlbum = Album(1, 10, "Test Album");
 AlbumDetail mockAlbumDetails = AlbumDetail(
@@ -192,5 +196,22 @@ void main() {
     );
   });
 
+  testWidgets('Test if error widget is shown for API error',
+          (WidgetTester tester) async {
+        // arrange
+        final mockHomeBloc = MockHomeBloc();
+        when(() => mockHomeBloc.state).thenReturn(
+          const HomeState.error("Push Error"), // the desired state
+        );
 
+        // test
+        await tester.pumpWidget(
+          BlocProvider<MockHomeBloc>(
+            create: (context) => mockHomeBloc,
+            child: const MyApp(),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(find.text("Sorry, No albums available!"), findsOneWidget);
+      });
 }

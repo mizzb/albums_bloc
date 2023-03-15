@@ -57,8 +57,11 @@ class _HomeViewState extends State<HomeView> {
             } else if (state is HomeLoadingState) {
               return const CustomProgress();
             } else if (state is HomeErrorState) {
-              return const Center(
-                child: Text("Sorry, Something went wrong!"),
+              return Center(
+                child: Text(
+                  "Sorry, No albums available!",
+                  style: GoogleFonts.roboto(color: Colors.white),
+                ),
               );
             } else if (state is HomeLoadedState) {
               final albums = state.albumList;

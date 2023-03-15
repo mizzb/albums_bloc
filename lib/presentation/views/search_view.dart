@@ -6,6 +6,7 @@ import 'package:album_bloc/widgets/album_card.dart';
 import 'package:album_bloc/widgets/custom_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SearchView extends StatefulWidget {
   final String searchText;
@@ -34,7 +35,6 @@ class _SearchViewState extends State<SearchView> {
       ),
       backgroundColor: kBackground,
       body: SafeArea(
-
         child: _buildBody(context),
       ),
     );
@@ -47,8 +47,11 @@ class _SearchViewState extends State<SearchView> {
       } else if (state is SearchLoadingState) {
         return const CustomProgress();
       } else if (state is SearchErrorState) {
-        return const Center(
-          child: Text("No albums found"),
+        return Center(
+          child: Text(
+            "Sorry, No albums available!",
+            style: GoogleFonts.roboto(color: Colors.white),
+          ),
         );
       } else if (state is SearchLoadedState) {
         final albums = state.albumList;

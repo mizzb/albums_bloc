@@ -39,6 +39,6 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.text('Sorry, Something went wrong!'), findsOneWidget);
+    expect(find.text("Sorry, No albums available!"), findsOneWidget);
   });
 }
