@@ -1,11 +1,14 @@
 import 'package:album_bloc/config/constants.dart';
+import 'package:album_bloc/config/routes.dart';
+import 'package:album_bloc/domain/usecases/getAlbumImageUseCase.dart';
+import 'package:album_bloc/domain/usecases/getAlbumsUseCase.dart';
+import 'package:album_bloc/domain/usecases/searchAlbum.dart';
 import 'package:album_bloc/presentation/blocs/album/album_bloc.dart';
 import 'package:album_bloc/presentation/blocs/home/home_bloc.dart';
 import 'package:album_bloc/presentation/blocs/search/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'config/routes.dart';
 import 'injector.dart';
 
 Future main() async {
@@ -23,13 +26,13 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => HomeBloc(),
+          create: (_) => HomeBloc(getIt<GetAlbumsUseCase>()),
         ),
         BlocProvider(
-          create: (_) => SearchBloc(),
+          create: (_) => SearchBloc(getIt<SearchAlbumUseCase>()),
         ),
         BlocProvider(
-          create: (_) => AlbumBloc(),
+          create: (_) => AlbumBloc(getIt<GetAlbumImageUseCase>()),
         ),
       ],
       child: const MaterialApp(

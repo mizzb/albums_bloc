@@ -1,3 +1,4 @@
+import 'package:album_bloc/config/constants.dart';
 import 'package:album_bloc/data/model/AlbumDetail.dart';
 import 'package:album_bloc/presentation/blocs/album/album_bloc.dart';
 import 'package:album_bloc/presentation/blocs/album/album_states.dart';
@@ -5,6 +6,7 @@ import 'package:album_bloc/widgets/custom_progress.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AlbumView extends StatefulWidget {
   final int albumId;
@@ -25,23 +27,21 @@ class _AlbumViewState extends State<AlbumView> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kBackground,
         title: const Text('Album Details'),
       ),
-      body: _buildBody(context),
+      backgroundColor: kBackground,
+      body: SafeArea(
+        child: _buildBody(context),
+      ),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    return SafeArea(
-        child: BlocBuilder<AlbumBloc, AlbumState>(builder: (_, state) {
+    return BlocBuilder<AlbumBloc, AlbumState>(builder: (_, state) {
       if (state is AlbumInitialState) {
         return const CustomProgress();
       } else if (state is AlbumLoadingState) {
@@ -52,37 +52,68 @@ class _AlbumViewState extends State<AlbumView> {
         );
       } else if (state is AlbumLoadedState) {
         final albums = state.albumList;
-        return buildAlbumDetailsView(albums);
+        return _buildAlbumDetailsView(albums);
       } else {
         return const CustomProgress();
       }
-    }));
+    });
   }
 
-  Widget buildAlbumDetailsView(List<AlbumDetail?> albums) {
+  Widget _buildAlbumDetailsView(List<AlbumDetail?> albums) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Center(
         child: CarouselSlider(
             options: CarouselOptions(
               autoPlay: true,
+              enlargeCenterPage: true,
             ),
             items: albums
-                .map((item) => Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Center(
-                            child: Image.network(
-                          item!.thumbnailUrl,
-                          fit: BoxFit.cover,
-                        )),
-                        Center(
-                          child: Text(item.title),
-                        )
-                      ],
+                .map((item) => Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: kListCardColor)
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                              child: Image.network(
+                            item!.thumbnailUrl,
+                            fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context, Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                          : null,
+                                    ),
+                                  );
+                                },
+                          )),
+                          Center(
+                            child: Text(
+                              item.title,
+                              maxLines : 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
                     ))
                 .toList()),
       ),
     );
   }
+
+
 }

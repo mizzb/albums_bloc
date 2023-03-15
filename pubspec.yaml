@@ -1,5 +1,5 @@
 name: album_bloc
-description: Flutter project for listing albums using bloc state manger
+description: Flutter project for listing albums using bloc as state manger
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -15,26 +15,50 @@ dependencies:
 
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
+  dio: ^5.0.2
   flutter_bloc: ^8.1.2
   get_it: ^7.2.0
+  google_fonts: ^4.0.3
   retrofit: ^4.0.1
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.0
+  flutter_native_splash: ^2.2.19
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  bloc_test: ^9.1.1
+  mocktail: ^0.3.0
   flutter_lints: ^2.0.0
   build_runner: ^2.3.3
-  dio: ^5.0.2
   freezed: ^2.3.2
   json_serializable: ^6.6.1
   retrofit_generator: ^6.0.0+1
+  flutter_launcher_icons: ^0.12.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.jpeg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/logo.jpeg"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+
+flutter_native_splash:
+  color: "#000000"
+  android_12:
+    color: "#000000"
+
 
 flutter:
-
   uses-material-design: true
+
+assets:
+  assets/
+  assets/logo.jpeg
 
 

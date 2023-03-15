@@ -1,3 +1,4 @@
+import 'package:album_bloc/config/constants.dart';
 import 'package:album_bloc/data/model/Album.dart';
 import 'package:album_bloc/presentation/blocs/search/search_bloc.dart';
 import 'package:album_bloc/presentation/blocs/search/search_states.dart';
@@ -28,15 +29,19 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Search"),
+        backgroundColor: kBackground,
+        title: const Text("Search Album"),
       ),
-      body: _buildBody(context),
+      backgroundColor: kBackground,
+      body: SafeArea(
+
+        child: _buildBody(context),
+      ),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    return SafeArea(
-        child: BlocBuilder<SearchBloc, SearchState>(builder: (_, state) {
+    return BlocBuilder<SearchBloc, SearchState>(builder: (_, state) {
       if (state is SearchInitialState) {
         return const CustomProgress();
       } else if (state is SearchLoadingState) {
@@ -51,7 +56,7 @@ class _SearchViewState extends State<SearchView> {
       } else {
         return const CustomProgress();
       }
-    }));
+    });
   }
 
   Widget buildAlbumView(List<Album?> album) {

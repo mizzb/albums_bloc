@@ -1,22 +1,21 @@
 import 'package:album_bloc/data/remote/AlbumApiService.dart';
 import 'package:album_bloc/data/repository/AlbumRepositoryImpl.dart';
 import 'package:album_bloc/domain/repository/AlbumRepository.dart';
-import 'package:album_bloc/domain/usecases/getAlbum.dart';
-import 'package:album_bloc/domain/usecases/getAlbumImage.dart';
-import 'package:album_bloc/domain/usecases/getAlbums.dart';
+import 'package:album_bloc/domain/usecases/getAlbumImageUseCase.dart';
+import 'package:album_bloc/domain/usecases/getAlbumUseCase.dart';
+import 'package:album_bloc/domain/usecases/getAlbumsUseCase.dart';
 import 'package:album_bloc/domain/usecases/searchAlbum.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
 
-Future initializeDependencies() async {
+Future initializeDependencies({bool isTest = false}) async {
   getIt.registerSingleton<Dio>(Dio());
-
   getIt.registerSingleton<AlbumApiService>(AlbumApiService(getIt()));
   getIt.registerSingleton<AlbumRepository>(AlbumRepositoryImpl(getIt()));
-  getIt.registerSingleton<GetAlbums>(GetAlbums(getIt()));
-  getIt.registerSingleton<GetAlbum>(GetAlbum(getIt()));
-  getIt.registerSingleton<SearchAlbum>(SearchAlbum(getIt()));
-  getIt.registerSingleton<GetAlbumImage>(GetAlbumImage(getIt()));
+  getIt.registerSingleton<GetAlbumsUseCase>(GetAlbumsUseCase(getIt()));
+  getIt.registerSingleton<GetAlbumUseCase>(GetAlbumUseCase(getIt()));
+  getIt.registerSingleton<SearchAlbumUseCase>(SearchAlbumUseCase(getIt()));
+  getIt.registerSingleton<GetAlbumImageUseCase>(GetAlbumImageUseCase(getIt()));
 }

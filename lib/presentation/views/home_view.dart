@@ -6,6 +6,7 @@ import 'package:album_bloc/widgets/album_card.dart';
 import 'package:album_bloc/widgets/custom_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -28,13 +29,14 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackground,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(
             children: [
-              buildAlbumBloc(context),
-              buildSearchField(context),
+              _buildAlbumBloc(context),
+              _buildSearchField(context),
             ],
           ),
         ),
@@ -42,11 +44,11 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Column buildAlbumBloc(BuildContext context) {
+  Widget _buildAlbumBloc(BuildContext context) {
     return Column(
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.1,
+          height: MediaQuery.of(context).size.height * 0.12,
         ),
         Expanded(
           child: BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
@@ -60,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
               );
             } else if (state is HomeLoadedState) {
               final albums = state.albumList;
-              return buildAlbumView(albums);
+              return _buildAlbumView(albums);
             } else {
               return const CustomProgress();
             }
@@ -70,9 +72,9 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Container buildSearchField(BuildContext context) {
+  Widget _buildSearchField(BuildContext context) {
     return Container(
-        color: Colors.white,
+        color: Colors.black,
         height: MediaQuery.of(context).size.height * 0.1,
         width: MediaQuery.of(context).size.width,
         child: Row(
@@ -82,7 +84,8 @@ class _HomeViewState extends State<HomeView> {
             Expanded(
               child: TextField(
                 controller: _editingController,
-                decoration: const InputDecoration(hintText: "Search for album"),
+                decoration: kTextFieldStyle,
+                style: GoogleFonts.comfortaa(color: Colors.white),
               ),
             ),
             SizedBox(
@@ -110,7 +113,7 @@ class _HomeViewState extends State<HomeView> {
         ));
   }
 
-  Widget buildAlbumView(List<Album> album) {
+  Widget _buildAlbumView(List<Album> album) {
     return ListView.builder(
         itemCount: album.length,
         itemBuilder: (context, index) {
